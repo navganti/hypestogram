@@ -8,7 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
-roslaunch
+  cv_bridge
+  roslaunch
 )
 
 ## System dependencies are found with CMake's conventions
