@@ -5,6 +5,7 @@ Simple ROS node to view live image intensity histograms.
 Clone the repository with:
 
 SSH: `git clone git@github.com:navganti/hypestogram.git`
+
 HTTPS: `git clone https://github.com/navganti/hypestogram.git`
 
 Clone either directly to your catkin workspace, or place there via a symlink.
