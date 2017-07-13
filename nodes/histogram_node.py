@@ -6,11 +6,12 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from matplotlib import pyplot as plt
 
+
 class HistogramNode:
 
     def __init__(self):
         # topic for input image
-        input_img_topic = '/camera_nav/image_raw'
+        input_img_topic = '/image'
         self.sub_img = rospy.Subscriber(input_img_topic,
                                         Image,
                                         self.img_callback)
@@ -25,11 +26,9 @@ class HistogramNode:
         except CvBridgeError as e:
             print(e)
 
-        print("Callback is reached")
-
         plt.ion()
         plt.hist(cv_image.ravel(), 256, [0, 256])
-        plt.pause(0.05)
+        plt.pause(0.01)
         plt.clf()
 
 if __name__ == '__main__':
