@@ -1,2 +1,2 @@
 # hypestogram
-ROS node to view live image intensity histograms
+Simple ROS node to view live image intensity histograms

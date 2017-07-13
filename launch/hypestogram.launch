@@ -1,0 +1,5 @@
+<launch>
+    <!--arg name="topic" /-->
+    <node pkg="hypestogram" type="histogram_node.py" name="histogram_node" output="screen" respawn="true"/>
+    <!--remap from="img_topic" to="$(arg topic)" /-->
+</launch>
