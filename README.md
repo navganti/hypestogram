@@ -8,7 +8,7 @@ SSH: `git clone git@github.com:navganti/hypestogram.git`
 
 HTTPS: `git clone https://github.com/navganti/hypestogram.git`
 
-Clone either directly to your catkin workspace, or place there via a symlink.
+Clone either directly to your catkin workspace source folder (ex. `~/catkin_ws/src`), or place there via a symlink.
 
 # Build
 Run either `catkin_make` or `catkin build` to build the package.
