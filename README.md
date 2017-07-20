@@ -22,5 +22,3 @@ Example topic: `/camera1/image_raw`
 Then the launch file can be run with:
 
 `roslaunch hypestogram hypestogram.launch topic:=/camera1/image_raw`
-
-``
