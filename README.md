@@ -11,7 +11,7 @@ HTTPS: `git clone https://github.com/navganti/hypestogram.git`
 Clone either directly to your catkin workspace source folder (ex. `~/catkin_ws/src`), or place there via a symlink.
 
 # Build
-Run either `catkin_make` or `catkin build` to build the package.
+Run either `catkin_make` or `catkin build` to build the package. Be sure to source `devel/setup.bash` within your catkin workspace, as well as `/opt/ros/distro/setup.bash`.
 
 # Run
 To run, you must specify the image topic for the histogram. This must be 
