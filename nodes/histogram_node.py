@@ -1,11 +1,16 @@
 #!/usr/bin/env python2
 
+# ROS
 import rospy
-import cv2 as cv
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
-from matplotlib import pyplot as plt
 
+# OpenCV
+import cv2 as cv
+from cv_bridge import CvBridge, CvBridgeError
+
+# Matplotlib
+from matplotlib import pyplot as plt
+from matplotlib import animation as animation
 
 class HistogramNode:
 
@@ -18,23 +23,42 @@ class HistogramNode:
 
         # Define OpenCV bridge
         self.bridge = CvBridge()
+        self.img_recv = False
 
     def img_callback(self, data):
+        # Extract image from cv_bridge
         try:
-            cv_image = self.bridge.imgmsg_to_cv2(data,
-                                                 desired_encoding="passthrough")
+            self.cv_image = self.bridge.imgmsg_to_cv2(data,
+                                                desired_encoding="passthrough")
+
+            if self.img_recv is False:
+                self.img_recv = True
         except CvBridgeError as e:
             print(e)
 
-        plt.ion()
-        plt.hist(cv_image.ravel(), 256, [0, 256])
-        plt.pause(0.01)
-        plt.clf()
+    def animate(self, num):
+        # Plot features
+        plt.cla()
+        plt.title("Image Intensity Histogram")
+        plt.xlabel("Intensity")
+        plt.ylabel("Count")
+        plt.xlim(0, 255)
+
+        if self.img_recv is True:
+            plt.hist(self.cv_image.ravel(), 256, [0, 256])
+
+    def plotter(self):
+        while not rospy.is_shutdown():
+            fig = plt.figure()
+            ani = animation.FuncAnimation(fig,
+                                      self.animate,
+                                      frames=None,
+                                      init_func=None,
+                                      interval=25)
+            plt.show()
+            rospy.spin()
 
 if __name__ == '__main__':
     rospy.init_node('HistogramNode', anonymous=True)
     histogram_node = HistogramNode()
-    rate = rospy.Rate(50)
-
-    while not rospy.is_shutdown():
-        rate.sleep()
+    histogram_node.plotter()
