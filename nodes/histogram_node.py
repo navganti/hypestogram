@@ -12,18 +12,24 @@ from cv_bridge import CvBridge, CvBridgeError
 from matplotlib import pyplot as plt
 from matplotlib import animation as animation
 
+# Argparse
+import argparse
+
 class HistogramNode:
 
-    def __init__(self):
+    def __init__(self, live_mode):
         # topic for input image
-        input_img_topic = '/image'
-        self.sub_img = rospy.Subscriber(input_img_topic,
+        self.input_img_topic = '/image'
+        self.sub_img = rospy.Subscriber(self.input_img_topic,
                                         Image,
                                         self.img_callback)
 
         # Define OpenCV bridge
         self.bridge = CvBridge()
+
+        # Set flags and mode
         self.img_recv = False
+        self.live = live_mode
 
     def img_callback(self, data):
         # Extract image from cv_bridge
@@ -37,7 +43,7 @@ class HistogramNode:
             print(e)
 
     def animate(self, num):
-        # Plot features
+        # Plot characteristics
         plt.cla()
         plt.title("Image Intensity Histogram")
         plt.xlabel("Intensity")
@@ -58,7 +64,19 @@ class HistogramNode:
             plt.show()
             rospy.spin()
 
+
 if __name__ == '__main__':
+    # Parse mode argument - determine whether to run in online or offline mode
+    parser = argparse.ArgumentParser(
+        description='Plot an image intensity histogram of a ros topic.')
+    parser.add_argument(
+        "live_mode",
+        help="Set as true to view a live histogram, false for a single histogram.",
+        type=bool)
+
+    # rospy argument required to parse roslaunch topics.
+    args = parser.parse_args(rospy.myargv()[1:])
+
     rospy.init_node('HistogramNode', anonymous=True)
-    histogram_node = HistogramNode()
+    histogram_node = HistogramNode(args)
     histogram_node.plotter()
