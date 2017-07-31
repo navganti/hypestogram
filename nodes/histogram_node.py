@@ -17,7 +17,7 @@ import argparse
 
 class HistogramNode:
 
-    def __init__(self, live_mode):
+    def __init__(self, args):
         # topic for input image
         self.input_img_topic = '/image'
         self.sub_img = rospy.Subscriber(self.input_img_topic,
@@ -29,7 +29,7 @@ class HistogramNode:
 
         # Set flags and mode
         self.img_recv = False
-        self.live = live_mode
+        self.name = args
 
     def img_callback(self, data):
         # Extract image from cv_bridge
@@ -39,13 +39,14 @@ class HistogramNode:
 
             if self.img_recv is False:
                 self.img_recv = True
+
         except CvBridgeError as e:
             print(e)
 
     def animate(self, num):
         # Plot characteristics
         plt.cla()
-        plt.title("Image Intensity Histogram")
+        plt.title(self.name)
         plt.xlabel("Intensity")
         plt.ylabel("Count")
         plt.xlim(0, 255)
@@ -54,16 +55,12 @@ class HistogramNode:
             plt.hist(self.cv_image.ravel(), 256, [0, 256])
 
     def plotter(self):
-        if self.live is True:
-            while not rospy.is_shutdown():
-                fig = plt.figure()
-                ani = animation.FuncAnimation(fig,
-                                          self.animate,
-                                          frames=None,
-                                          init_func=None,
-                                          interval=25)
-                plt.show()
-                rospy.spin()
+        while not rospy.is_shutdown():
+            fig = plt.figure()
+            ani = animation.FuncAnimation(fig, self.animate, frames=None,
+                                          init_func=None, interval=25)
+            plt.show()
+            rospy.spin()
 
 
 if __name__ == '__main__':
@@ -71,13 +68,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Plot an image intensity histogram of a ros topic.')
     parser.add_argument(
-        "live_mode",
-        help="Set as true to view a live histogram, false for a single histogram.",
-        type=bool)
+        "-name", type=str, default="Image Intensity Histogram",
+        help="If the optional parameter is added, run in offline mode.")
 
     # rospy argument required to parse roslaunch topics.
     args = parser.parse_args(rospy.myargv()[1:])
 
     rospy.init_node('HistogramNode', anonymous=True)
-    histogram_node = HistogramNode(args.live_mode)
+    histogram_node = HistogramNode(args.name)
     histogram_node.plotter()

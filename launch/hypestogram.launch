@@ -1,6 +1,6 @@
 <launch>
     <arg name="topic" />
-    <node pkg="hypestogram" type="histogram_node.py" args="false" name="histogram_node" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" name="histogram_node" output="screen" respawn="true">
         <remap from="/image" to="$(arg topic)"/>
     </node>
 </launch>
