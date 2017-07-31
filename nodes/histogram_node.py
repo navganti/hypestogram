@@ -54,15 +54,16 @@ class HistogramNode:
             plt.hist(self.cv_image.ravel(), 256, [0, 256])
 
     def plotter(self):
-        while not rospy.is_shutdown():
-            fig = plt.figure()
-            ani = animation.FuncAnimation(fig,
-                                      self.animate,
-                                      frames=None,
-                                      init_func=None,
-                                      interval=25)
-            plt.show()
-            rospy.spin()
+        if self.live is True:
+            while not rospy.is_shutdown():
+                fig = plt.figure()
+                ani = animation.FuncAnimation(fig,
+                                          self.animate,
+                                          frames=None,
+                                          init_func=None,
+                                          interval=25)
+                plt.show()
+                rospy.spin()
 
 
 if __name__ == '__main__':
@@ -78,5 +79,5 @@ if __name__ == '__main__':
     args = parser.parse_args(rospy.myargv()[1:])
 
     rospy.init_node('HistogramNode', anonymous=True)
-    histogram_node = HistogramNode(args)
+    histogram_node = HistogramNode(args.live_mode)
     histogram_node.plotter()
