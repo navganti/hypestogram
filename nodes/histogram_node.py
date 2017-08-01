@@ -5,6 +5,7 @@ import rospy
 from sensor_msgs.msg import Image
 
 # OpenCV
+import cv2
 from cv_bridge import CvBridge, CvBridgeError
 
 # Matplotlib
@@ -39,7 +40,7 @@ class HistogramNode:
 
         # Set thresholds for a washed out or dark image
         self.high_index = 250
-        self.low_index = 50
+        self.low_index = 30
         self.high_bin_threshold = 15000
         self.low_bin_threshold = 15000
         self.flag = False
@@ -51,8 +52,11 @@ class HistogramNode:
     def img_callback(self, data):
         # Extract image from cv_bridge
         try:
-            self.cv_image = self.bridge.imgmsg_to_cv2(data,
+            image = self.bridge.imgmsg_to_cv2(data,
                                                 desired_encoding="passthrough")
+
+            # Convert to grayscale
+            self.cv_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
             if self.img_recv is False:
                 self.img_recv = True
@@ -108,7 +112,7 @@ class HistogramNode:
                     print "Image", self.name, "is too dark."
                     self.flag = True
                 elif max_low >self.low_bin_threshold:
-                    print "Image", self.name, "has portions of the " \
+                    print "Image", self.name, "has portions of the" \
                                         " image that are too dark."
                     self.flag = True
 
