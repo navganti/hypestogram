@@ -1,26 +1,26 @@
 <launch>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name Front" name="histogram_node_F" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name Front -t" name="histogram_node_F" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_f/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name FrontRight" name="histogram_node_FR" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name FrontRight -t" name="histogram_node_FR" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_fr/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name RightFront" name="histogram_node_RF" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name RightFront -t" name="histogram_node_RF" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_rf/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name RightBack" name="histogram_node_RB" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name RightBack -t" name="histogram_node_RB" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_rb/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name Back" name="histogram_node_B" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name Back -t" name="histogram_node_B" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_b/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name LeftBack" name="histogram_node_LB" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name LeftBack -t" name="histogram_node_LB" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_lb/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name LeftFront" name="histogram_node_LF" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name LeftFront -t" name="histogram_node_LF" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_lf/image_raw"/>
     </node>
-    <node pkg="hypestogram" type="histogram_node.py" args="-name FrontLeft" name="histogram_node_FL" output="screen" respawn="true">
+    <node pkg="hypestogram" type="histogram_node.py" args="--name FrontLeft -t" name="histogram_node_FL" output="screen" respawn="true">
         <remap from="/image" to="/ximea_camera_cam_fl/image_raw"/>
     </node>
 </launch>
